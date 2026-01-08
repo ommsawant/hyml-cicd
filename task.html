@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>✨ Task Tracker</title>
+  <style>
+    :root {
+--bg-color: #fefefe;             /* Crisp white background */
+--text-color: #2c3e50;           /* Deep navy blue for clarity */
+--task-bg: #ffffff;              /* White task cards */
+--accent-color: #6c5ce7;         /* Vivid violet accent */
+--border-color: #dcdde1;         /* Soft gray border */
+--highlight: #ffeaa7;            /* Gentle yellow for highlights */
+--shadow: rgba(108, 92, 231, 0.1); /* Subtle violet shadow for depth */
+
+
+
+
+
+    }
+    [data-theme="dark"] {
+      --bg-color: #1e1e2f;              /* Deep slate blue-black */
+--text-color: #f5f6fa;            /* Soft white for readability */
+--task-bg: #2c2c3a;               /* Slightly lighter card background */
+--accent-color: #a29bfe;          /* Soft pastel violet (matches #6c5ce7 from light theme) */
+--border-color: #3d3d50;          /* Muted border for contrast */
+--highlight: #fab1a0;             /* Soft peach-pink highlight */
+--shadow: rgba(0, 0, 0, 0.3);     /* Stronger shadow for depth */
+
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, var(--bg-color), var(--task-bg));
+      color: var(--text-color);
+      font-family: 'Fira Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-size: 2.6rem;
+      margin-bottom: 0.5em;
+      color: var(--accent-color);
+      text-shadow: 1px 1px 2px var(--shadow);
+    }
+
+    #quote {
+      font-size: 1rem;
+      font-style: italic;
+      margin-bottom: 20px;
+      max-width: 600px;
+      text-align: center;
+      color: var(--text-color);
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--accent-color);
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 8px var(--shadow);
+      transition: background 0.3s ease;
+    }
+
+    .task-input {
+      width: 100%;
+      max-width: 600px;
+      background: var(--task-bg);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px var(--shadow);
+      margin-bottom: 30px;
+    }
+
+    input, textarea {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 14px;
+      font-size: 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background-color: var(--highlight);
+      color: var(--text-color);
+    }
+
+    button {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .task {
+      background: var(--task-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 15px;
+      width: 100%;
+      max-width: 600px;
+      box-shadow: 0 4px 10px var(--shadow);
+    }
+
+    .task.completed {
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+
+    .task-actions {
+      margin-top: 15px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .stats {
+      margin-top: 30px;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--accent-color);
+    }
+
+    .bg-bubbles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .bg-bubbles span {
+      position: absolute;
+      display: block;
+      width: 25px;
+      height: 25px;
+      background: var(--accent-color);
+      opacity: 0.2;
+      border-radius: 50%;
+      animation: bubble 20s linear infinite;
+      bottom: -150px;
+    }
+
+    .bg-bubbles span:nth-child(1) { left: 10%; animation-delay: 0s; }
+    .bg-bubbles span:nth-child(2) { left: 20%; animation-delay: 2s; }
+    .bg-bubbles span:nth-child(3) { left: 30%; animation-delay: 4s; }
+    .bg-bubbles span:nth-child(4) { left: 40%; animation-delay: 6s; }
+    .bg-bubbles span:nth-child(5) { left: 50%; animation-delay: 8s; }
+    .bg-bubbles span:nth-child(6) { left: 60%; animation-delay: 10s; }
+    .bg-bubbles span:nth-child(7) { left: 70%; animation-delay: 12s; }
+    .bg-bubbles span:nth-child(8) { left: 80%; animation-delay: 14s; }
+    .bg-bubbles span:nth-child(9) { left: 90%; animation-delay: 16s; }
+    .bg-bubbles span:nth-child(10) { left: 100%; animation-delay: 18s; }
+
+    @keyframes bubble {
+      0% {
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        transform: translateY(-100vh) scale(0.3);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-bubbles">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <h1>✨ Task Tracker</h1>
+  <div id="quote">“The secret of getting ahead is getting started.” – Mark Twain</div>
+  <button class="theme-toggle" onclick="toggleTheme()">🌓 Theme</button>
+  <div class="task-input">
+    <input type="text" id="task-title" placeholder="What's your next task?">
+    <textarea id="task-note" rows="2" placeholder="Add some details (optional)..."></textarea>
+    <button onclick="addTask()">➕ Add Task</button>
+  </div>
+  <div id="task-list"></div>
+  <button onclick="clearCompleted()">🧹 Clear Completed</button>
+  <div class="stats" id="task-stats"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <script>
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    let theme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+
+    const quotes = [
+      "Don't watch the clock; do what it does. Keep going.",
+      "The secret of getting ahead is getting started.",
+      "Productivity is never an accident.",
+      "Make each day your masterpiece.",
+      "Success usually comes to those who are too busy to be looking for it."
+    ];
+
+    function displayQuote() {
+      const q = quotes[Math.floor(Math.random() * quotes.length)];
+      document.getElementById('quote').textContent = `“${q}”`;
+    }
+
+    function saveTasks() {
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    function updateStats() {
+      const total = tasks.length;
+      const completed = tasks.filter(t => t.completed).length;
+      document.getElementById('task-stats').textContent = `📋 Total: ${total} | ✅ Completed: ${completed}`;
+    }
+
+    function renderTasks() {
+      const list = document.getElementById('task-list');
+      list.innerHTML = '';
+      tasks.forEach((task, i) => {
+        const div = document.createElement('div');
+        div.className = `task ${task.completed ? 'completed' : ''}`;
+        div.innerHTML = `
+          <strong>${task.title}</strong><br>
+          <small>${task.note || ''}</small>
+          <div class="task-actions">
+            <button onclick="toggleComplete(${i})">${task.completed ? '🔄 Undo' : '✅ Done'}</button>
+            <button onclick="deleteTask(${i})">❌ Delete</button>
+          </div>
+        `;
+        list.appendChild(div);
+      });
+      updateStats();
+      saveTasks();
+    }
+
+    function addTask() {
+      const title = document.getElementById('task-title').value.trim();
+      const note = document.getElementById('task-note').value.trim();
+      if (!title) return alert('Please enter a task title!');
+      tasks.push({ title, note, completed: false });
+      document.getElementById('task-title').value = '';
+      document.getElementById('task-note').value = '';
+      renderTasks();secret 
+    }
+
+    function toggleComplete(index) {
+      tasks[index].completed = !tasks[index].completed;
+      renderTasks();
+      if (tasks[index].completed) confetti();
+    }
+
+    function deleteTask(index) {
+      tasks.splice(index, 1);
+      renderTasks();
+    }
+
+    function clearCompleted() {
+      tasks = tasks.filter(t => !t.completed);
+      renderTasks();
+    }
+
+    function toggleTheme() {
+      theme = theme === 'light' ? 'dark' : 'light';
+      localStorage.setItem('theme', theme);
+      document.documentElement.setAttribute('data-theme', theme);
+    }
+
+    displayQuote();
+    renderTasks();
+  </script>
+</body>
+</html>
