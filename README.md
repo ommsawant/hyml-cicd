@@ -1,18 +1,22 @@
 HTML CI/CD Pipeline using Docker & GitHub Actions
+
 📌 Project Overview
 This project demonstrates a complete CI/CD pipeline for a simple static HTML application using Docker and GitHub Actions.
 Whenever code is pushed to the repository, the pipeline automatically builds, containerizes, and deploys the application.
+
 🛠️ Tech Stack
 HTML – Static web application
 Docker – Containerization
 GitHub Actions – CI/CD automation
 Nginx – Web server inside container
+
 🔁 CI/CD Workflow
 The pipeline is triggered automatically on every push to the main branch.
 Workflow Steps:
 Checkout source code from GitHub
 Build Docker image using Dockerfile
 Run Docker container to deploy the application
+
 📂 Project Structure
 Copy code
 
@@ -22,6 +26,7 @@ hyml-cicd/
 └── .github/
     └── workflows/
         └── ci-cd.yml # GitHub Actions CI/CD pipeline
+        
 🐳 Dockerfile
 Dockerfile
 FROM nginx:alpine
@@ -30,8 +35,8 @@ This Dockerfile:
 Uses lightweight Nginx image
 Copies HTML files into the web server directory
 Serves the application on port 80
-⚙️ GitHub Actions Pipeline
 
+⚙️ GitHub Actions Pipeline
 .github/workflows/ci-cd.yml
 Key actions performed:
 Builds Docker image
