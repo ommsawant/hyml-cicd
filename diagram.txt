@@ -1,0 +1,13 @@
+Developer
+   |
+   v
+GitHub Repository
+   |
+   v
+GitHub Actions (CI/CD)
+   |
+   v
+Docker Build
+   |
+   v
+Docker Container (Deployment)
